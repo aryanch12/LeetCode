@@ -1,57 +1,16 @@
-
-  class Solution {
- // To remove extra charchters
-bool valid(char ch){
-         if(ch>='a' && ch<='z' ||ch>='A' && ch<='Z'||ch>='0' && ch<='9'){
-             return 1 ; 
-         }
-     return 0;
- }
-
- // To convert into lowercase
- char lower(char ch){
-
-     if(ch>='A' && ch<='Z'){
-        char b = ch - 'A' + 'a';
-        return b;
-     }
-     else return ch;
-    
- }
-
- // To check if palindrome
-bool pali(string st){
-    int s=0 ; int e=st.length()-1;
-    while(s<=e){
-        if(st[s]!= st[e]){
-        return 0;
+class Solution {
+public:
+    bool helper(int i, int n, vector<char>& chars) {
+        if (i >= n / 2) return true;
+        if (chars[i] != chars[n - i - 1]) return false;
+        return helper(++i, n, chars);
     }
-    else {
-        s++;
-        e--;
-    }
-    }return 1; }
 
-
-
-  public:
- bool isPalindrome(string s) {
-     
-
-     // Removing extra space and copying it to another string name temp
-     string temp="";
-     for(int i=0 ; i<s.length() ; i++){
-        if(valid(s[i])){
-             temp.push_back(s[i]);
+    bool isPalindrome(string s) {
+        vector<char> chars;
+        for (char c : s) {
+            if (isalnum(c)) chars.push_back(tolower(c));
         }
-     }
-
-     // coverting all uppercase from temp into lowercase
-     for(int j=0 ; j<temp.length() ; j++){
-         temp[j]=lower(temp[j]);
-     }
-
-     // checking if temp is palindrome or not
-     return pali(temp);
-}
- };
+        return helper(0, chars.size(), chars);
+    }
+};
